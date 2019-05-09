@@ -36,6 +36,12 @@
     <ClInclude Include="GraphicsContext.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -48,6 +54,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsContext.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,5 +75,8 @@
     <Image Include="Sinple2D.ico">
       <Filter>资源文件</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

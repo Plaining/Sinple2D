@@ -240,3 +240,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/Sinple2D/ClassDiagram.cd
