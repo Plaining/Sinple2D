@@ -37,7 +37,7 @@ namespace Simple2D {
 		wndclass.lpszClassName = TEXT(CLASS_NAME);
 		RegisterClass(&wndclass);
 
-		hwnd = CreateWindowA(CLASS_NAME, title, WS_OVERLAPPEDWINDOW, 100, 100, width, height, NULL, NULL, (HINSTANCE)GetModuleHandle(0), this);
+		CreateWindowA(CLASS_NAME, title, WS_OVERLAPPEDWINDOW, 100, 100, width, height, NULL, NULL, (HINSTANCE)GetModuleHandle(0), this);
 
 		if (hwnd == NULL) {
 			throw std::exception("Unable to create window");

@@ -72,7 +72,7 @@ namespace Simple2D {
 				vertexData->pushData(tranformPosition(unit.pPositions[i]), unit.pColors[0]);
 			}
 			else {
-				vertexData->pushData(tranformPosition(unit.pPositions[i]), unit.pColors[1];
+				vertexData->pushData(tranformPosition(unit.pPositions[i]), unit.pColors[1]);
 			}
 		}
 		for (int i = 0; i < unit.nIndexCount; i++) {
@@ -102,6 +102,6 @@ namespace Simple2D {
 	}
 	Vec3 Renderer::tranformPosition(Vec3 & pos)
 	{
-		return Vec3();
+		return mTransformMatrix*pos;
 	}
 }

@@ -73,17 +73,17 @@ namespace Simple2D
 	inline Vec3 operator + (GLfloat s, const Vec3 &v) { return Vec3(v.x + s, v.y + s, v.z + s); }
 	inline Vec3 operator + (const Vec3 &v, GLfloat s) { return Vec3(v.x + s, v.y + s, v.z + s); }
 	/*-*/
-	inline Vec3 operator + (const Vec3 &v1, const Vec3 &v2) { return Vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z); }
-	inline Vec3 operator + (GLfloat s, const Vec3 &v) { return Vec3(v.x + s, v.y + s, v.z + s); }
-	inline Vec3 operator + (const Vec3 &v, GLfloat s) { return Vec3(v.x + s, v.y + s, v.z + s); }
+	inline Vec3 operator - (const Vec3 &v1, const Vec3 &v2) { return Vec3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z); }
+	inline Vec3 operator - (GLfloat s, const Vec3 &v) { return Vec3(v.x - s, v.y - s, v.z - s); }
+	inline Vec3 operator - (const Vec3 &v, GLfloat s) { return Vec3(v.x - s, v.y - s, v.z - s); }
 	/* * */
-	inline Vec3 operator + (const Vec3 &v1, const Vec3 &v2) { return Vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z); }
-	inline Vec3 operator + (GLfloat s, const Vec3 &v) { return Vec3(v.x + s, v.y + s, v.z + s); }
-	inline Vec3 operator + (const Vec3 &v, GLfloat s) { return Vec3(v.x + s, v.y + s, v.z + s); }
+	inline Vec3 operator * (const Vec3 &v1, const Vec3 &v2) { return Vec3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z); }
+	inline Vec3 operator * (GLfloat s, const Vec3 &v) { return Vec3(v.x * s, v.y * s, v.z * s); }
+	inline Vec3 operator * (const Vec3 &v, GLfloat s) { return Vec3(v.x * s, v.y * s, v.z * s); }
 	/* / */
-	inline Vec3 operator + (const Vec3 &v1, const Vec3 &v2) { return Vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z); }
-	inline Vec3 operator + (GLfloat s, const Vec3 &v) { return Vec3(v.x + s, v.y + s, v.z + s); }
-	inline Vec3 operator + (const Vec3 &v, GLfloat s) { return Vec3(v.x + s, v.y + s, v.z + s); }
+	inline Vec3 operator / (const Vec3 &v1, const Vec3 &v2) { return Vec3(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z); }
+	inline Vec3 operator / (GLfloat s, const Vec3 &v) { return Vec3(v.x / s, v.y / s, v.z / s); }
+	inline Vec3 operator / (const Vec3 &v, GLfloat s) { return Vec3(v.x / s, v.y / s, v.z / s); }
 
 	/*Matrix4*/
 	class DLL_export Color {

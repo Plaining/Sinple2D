@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 #include "Math.h"
 
 namespace Simple2D {
