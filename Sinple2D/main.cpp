@@ -1,11 +1,14 @@
 #pragma once
 
+#include<Windows.h>
 #include "stdafx.h"
 #include "RenderWindow.h"
 #include "GraphicsContext.h"
 #include "common.h"
 #include "Canvas2D.h"
 #include "Renderer.h"
+#include "TextureManager.h"
+
 
 #include <Exception>
 using namespace Simple2D;
@@ -15,6 +18,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	GraphicsContext graphicsContext(&window);
 
 	Canvas2D canvas(graphicsContext.getRenderer());
+	Texture* texture = TextureManager::instance()->getTexture("resource/image.jpg");
+	Texture* texture1 = TextureManager::instance()->getTexture("resource/image.png");
+
 	MSG msg = { 0 };
 	while (msg.message != WM_QUIT) {
 		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE)) {

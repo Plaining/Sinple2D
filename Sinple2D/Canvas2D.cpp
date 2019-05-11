@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "Canvas2D.h"
 #include "Renderer.h"
+#include "TextureManager.h"
 
 namespace Simple2D {
 	Canvas2D::Canvas2D(Renderer * renderer)
@@ -17,7 +18,69 @@ namespace Simple2D {
 		vPositions[0].set(x1, y1, z1);
 		vPositions[1].set(x2, y2, z2);
 
-		this->drawLines(&vPositions[0], &color, 2);
+		this->drawLines(&vPositions[0], color, 2);
+	}
+	void Canvas2D::drawLines(Vec3 * positions, Color & colors, int positionCount, bool sameColor)
+	{
+		int indexCount = (positionCount - 1) * 2;
+		this->resizeVector(-1, indexCount);
+
+		for (int i = 0; i < positionCount - 1; i++) {
+			vIndices[i * 2 + 0] = i;
+			vIndices[i * 2 + 1] = i + 1;
+		}
+
+		static RenderUnit unit;
+		unit.pPositions = positions;
+		unit.nPositionCount = positionCount;
+		unit.pIndices = &vIndices[0];
+		unit.nIndexCount = indexCount;
+		unit.color = colors;
+		unit.renderType = RENDER_TYPE_LINES;
+
+		pRenderer->pushRenderUnit(unit);
+	}
+	void Canvas2D::drawTriangles(Vec3 * positions, Color & colors, int positionCount, GLuint * indices, int indexCount, bool sameColor)
+	{
+		static RenderUnit unit;
+		unit.pPositions = positions;
+		unit.nPositionCount = positionCount;
+		unit.pIndices = indices;
+		unit.nIndexCount = indexCount;
+		unit.color = colors;
+		unit.renderType = RENDER_TYPE_TRIANGLES;
+
+		pRenderer->pushRenderUnit(unit);
+	}
+	void Canvas2D::drawRect(float x, float y, float w, float h, Color color)
+	{
+		this->resizeVector(5, 8);
+
+		vPositions[0].set(x + 0, y + 0, 0);
+		vPositions[1].set(x + 0, y + h, 0);
+		vPositions[2].set(x + w, y + h, 0);
+		vPositions[3].set(x + w, y + 0, 0);
+		vPositions[4].set(x + 0, y + 0, 0);
+
+		this->drawLines(&vPositions[0], color, 5);
+	}
+	void Canvas2D::fillRect(float x, float y, float w, float h, Color color)
+	{
+		this->resizeVector(4, 6);
+
+		vPositions[0].set(x + 0, y + 0, 0);
+		vPositions[1].set(x + 0, y + h, 0);
+		vPositions[2].set(x + w, y + h, 0);
+		vPositions[3].set(x + w, y + 0, 0);
+
+		vIndices[0] = 0;
+		vIndices[1] = 2;
+		vIndices[2] = 1;
+		vIndices[3] = 0;
+		vIndices[4] = 3;
+		vIndices[5] = 2;
+
+		this->drawTriangles(&vPositions[0], color, 4, &vIndices[0], 6);
 	}
 	void Canvas2D::drawCircle(const Vec3 & center, int radius, Color & color, int nSlice)
 	{
@@ -30,7 +93,7 @@ namespace Simple2D {
 				center.z
 			);
 		}
-		this->drawLines(&vPositions[0], &color, nVertexCount + 1);
+		this->drawLines(&vPositions[0], color, nVertexCount + 1);
 	}
 	void Canvas2D::fillCircle(const Vec3 & center, int radius, int degrees, Color & color)
 	{
@@ -90,70 +153,32 @@ namespace Simple2D {
 			}
 		}
 
-		this->drawTriangles(&vPositions[0], &color, nPositionCount, &vIndices[0], nIndexCount);
+		this->drawTriangles(&vPositions[0], color, nPositionCount, &vIndices[0], nIndexCount);
 	}
-	void Canvas2D::drawRect(float x, float y, float w, float h, Color color)
+	void Canvas2D::drawTexture(int x, int y, Texture * texture, Color & color)
 	{
-		this->resizeVector(5, 8);
-
-		vPositions[0].set(x + 0, y + 0, 0);
-		vPositions[1].set(x + 0, y + h, 0);
-		vPositions[2].set(x + w, y + h, 0);
-		vPositions[3].set(x + w, y + 0, 0);
-		vPositions[4].set(x + 0, y + 0, 0);
-
-		this->drawLines(&vPositions[0], &color, 5);
-	}
-	void Canvas2D::fillRect(float x, float y, float w, float h, Color color)
-	{
+		int w = texture->size.w;
+		int h = texture->size.h;
 		this->resizeVector(4, 6);
-
 		vPositions[0].set(x + 0, y + 0, 0);
 		vPositions[1].set(x + 0, y + h, 0);
 		vPositions[2].set(x + w, y + h, 0);
 		vPositions[3].set(x + w, y + 0, 0);
-
 		vIndices[0] = 0;
 		vIndices[1] = 2;
 		vIndices[2] = 1;
 		vIndices[3] = 0;
 		vIndices[4] = 3;
 		vIndices[5] = 2;
-
-		this->drawTriangles(&vPositions[0], &color, 4, &vIndices[0], 6);
-	}
-	void Canvas2D::drawTriangles(Vec3 * positions, Color * colors, int positionCount, GLuint * indices, int indexCount, bool sameColor)
-	{
 		static RenderUnit unit;
-		unit.pPositions = positions;
-		unit.nPositionCount = positionCount;
-		unit.pIndices = indices;
-		unit.nIndexCount = indexCount;
-		unit.pColors = colors;
-		unit.bSameColor = sameColor;
-		unit.renderType = RENDER_TYPE_TRIANGLES;
-
-		pRenderer->pushRenderUnit(unit);
-	}
-	void Canvas2D::drawLines(Vec3 * positions, Color * colors, int positionCount, bool sameColor)
-	{
-		int indexCount = (positionCount - 1) * 2;
-		this->resizeVector(-1, indexCount);
-
-		for (int i = 0; i < positionCount - 1; i++) {
-			vIndices[i * 2 + 0] = i;
-			vIndices[i * 2 + 1] = i + 1;
-		}
-
-		static RenderUnit unit;
-		unit.pPositions = positions;
-		unit.nPositionCount = positionCount;
+		unit.pPositions = &vPositions[0];
+		unit.nPositionCount = 4;
+		unit.pTexcoords = texture->texcoords;
 		unit.pIndices = &vIndices[0];
-		unit.nIndexCount = indexCount;
-		unit.pColors = colors;
-		unit.bSameColor = sameColor;
-		unit.renderType = RENDER_TYPE_LINES;
-
+		unit.nIndexCount = 6;
+		unit.color = color;
+		unit.texture = texture;
+		unit.renderType = RENDER_TYPE_TEXTURE;
 		pRenderer->pushRenderUnit(unit);
 	}
 	void Canvas2D::resizeVector(int positionCount, int indexCount)

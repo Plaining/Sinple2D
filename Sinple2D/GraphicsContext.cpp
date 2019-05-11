@@ -108,8 +108,7 @@ namespace Simple2D {
 	}
 	void GraphicsContext::flip()
 	{
-		/* 使用一个自定义的颜色清空屏幕，这里使用红色 */
-		glClearColor(1.0f, 0, 0, 1.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 		/* 调用glClear函数来清空屏幕的颜色缓冲 */
 		glClear(GL_COLOR_BUFFER_BIT);

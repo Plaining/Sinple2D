@@ -17,21 +17,25 @@ namespace Simple2D
 	class DLL_export Vec2
 	{
 	public:
-		GLfloat x, y;
+		union { GLfloat x; GLfloat w; };
+		union { GLfloat y; GLfloat h; };
 	public:
 		Vec2() :x(0), y(0) {};
-		Vec2(GLfloat nx, GLfloat ny):x(nx),y(ny){}
+		Vec2(GLfloat nx, GLfloat ny) :x(nx), y(ny) {}
 		void set(GLfloat nx, GLfloat ny) {
 			x = nx;
 			y = ny;
 		}
 	};
+	
+	typedef Vec2 Size;
+
 	/*vec3*/
 	class DLL_export Vec3 {
 	public:
 		GLfloat x, y, z;
 	public:
-		Vec3():x(0),y(0),z(0){}
+		Vec3() :x(0), y(0), z(0) {}
 		Vec3(GLfloat nx, GLfloat ny, GLfloat nz) :x(nx), y(ny), z(nz) {}
 		void set(GLfloat nx, GLfloat ny, GLfloat nz) {
 			x = nx;
@@ -84,7 +88,30 @@ namespace Simple2D
 	inline Vec3 operator / (const Vec3 &v1, const Vec3 &v2) { return Vec3(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z); }
 	inline Vec3 operator / (GLfloat s, const Vec3 &v) { return Vec3(v.x / s, v.y / s, v.z / s); }
 	inline Vec3 operator / (const Vec3 &v, GLfloat s) { return Vec3(v.x / s, v.y / s, v.z / s); }
-
+	/*Rect*/
+	class DLL_export Rect
+	{
+	public:
+		GLfloat x, y, w, h;
+	public:
+		Rect():x(0),y(0),w(0),h(0){}
+		void set(GLfloat nx, GLfloat ny, GLfloat nw, GLfloat nh) {
+			x = nx;
+			y = ny;
+			w = nw;
+			h = nh;
+		}
+		void setPos(const Vec2& pos) {
+			x = pos.x;
+			y = pos.y;
+		}
+		void setSize(const Size& size) {
+			w = size.w;
+			h = size.h;
+		}
+		Vec2 getPos() { return Vec2(x, y); }
+		Size getSize() { return Size(w, h); }
+	};
 	/*Matrix4*/
 	class DLL_export Color {
 	public:
