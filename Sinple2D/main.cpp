@@ -49,6 +49,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			canvas.fillCircle(Vec3(200, 400, 0), 0, 80, 0, 360, Color(1, 0, 0, 1));
 			canvas.fillCircle(Vec3(400, 400, 0), 0, 80, 0, 270, Color(0, 1, 0, 1));
 			canvas.fillCircle(Vec3(600, 400, 0), 60, 80, 0, 270, Color(0, 0, 1, 1));
+			canvas.drawTexture(180, 0, texture1, Color(1, 1, 1, 1));
+			canvas.drawTexture(120, 100, texture, Color(1, 1, 1, 0.8));
 
 			graphicsContext.flip();
 		}

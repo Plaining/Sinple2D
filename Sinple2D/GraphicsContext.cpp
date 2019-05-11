@@ -6,23 +6,6 @@
 #include "Renderer.h"
 #include "Math.h"
 
-const GLchar *shader_vs = "#version 330 core\n"
-"layout (location = 0) in vec3 position;\n"
-"layout (location = 1) in vec4 color;\n"
-"uniform mat4 projection;\n"
-"out vec4 Vcolor;\n"
-"void main(){\n"
-"gl_Position = vec4(position, 1.0f);\n"
-"Vcolor = color;\n"
-"}";
-
-const GLchar *shader_frag = "#version 330 core\n"
-"out vec4 color;\n"
-"in vec4 Vcolor;\n"
-"void main(){\n"
-"color = Vcolor;\n"
-"}";
-
 namespace Simple2D {
 	GraphicsContext::GraphicsContext(RenderWindow * renderWindow)
 		:pRenderWindow(renderWindow)
@@ -31,8 +14,9 @@ namespace Simple2D {
 		,deviceContext(0)
 	{
 		this->createOpenGLContext();
-		this->createShaderProgram();
 		pRenderer = new Renderer();
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 	GraphicsContext::~GraphicsContext()
 	{
@@ -72,43 +56,10 @@ namespace Simple2D {
 			glViewport(0, 0, size.cx, size.cy);
 		}
 	}
-	void GraphicsContext::createShaderProgram()
-	{
-		vertexShader = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertexShader, 1, &shader_vs, NULL);
-		glCompileShader(vertexShader);
-		GLint success;
-		GLchar infoLog[512];
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-		if (!success) {
-			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-			int tmp = 0;
-		}
-		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, &shader_frag, NULL);
-		glCompileShader(fragmentShader);
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-		if (!success) {
-			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-			int tmp = 0;
-		}
-		shaderProgram = glCreateProgram();
-		glAttachShader(shaderProgram, vertexShader);
-		glAttachShader(shaderProgram, fragmentShader);
-		glLinkProgram(shaderProgram);
-
-		glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-		if (!success) {
-			glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-			int tmp = 0;
-		}
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
-		glUseProgram(shaderProgram);
-	}
+	
 	void GraphicsContext::flip()
 	{
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
 		/* 调用glClear函数来清空屏幕的颜色缓冲 */
 		glClear(GL_COLOR_BUFFER_BIT);

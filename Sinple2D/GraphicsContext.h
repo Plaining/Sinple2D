@@ -8,6 +8,7 @@
 
 namespace Simple2D {
 	class RenderWindow;
+	class TextRender;
 	class Renderer;
 
 	class DLL_export GraphicsContext {
@@ -19,13 +20,11 @@ namespace Simple2D {
 		Renderer* getRenderer() { return pRenderer; }
 	private:
 		void createOpenGLContext();
-		void createShaderProgram();
 
 		RenderWindow* pRenderWindow;
 		Renderer* pRenderer;
 		HGLRC openglRenderContext;
 		HDC deviceContext;
-		GLuint shaderProgram;
-		GLuint vertexShader, fragmentShader;
+		TextRender* pTextRender;
 	};
 }

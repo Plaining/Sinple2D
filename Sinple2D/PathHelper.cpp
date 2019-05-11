@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "PathHelper.h"
 #include<Windows.h>
 
